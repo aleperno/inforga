@@ -252,7 +252,7 @@ s.t. costo_total{m in MESES}:
 
 ## TEST BASURA
 #s.t. test{i in MESES, j in MESES: i<j and i<>12 and j<>1}:
-#    STOCK_INI[j] >= STOCK_INI[i] + 1;
+#    STOCK_INI[j] >= STOCK_INI[i];
 
 ### DATOS ###
 data;

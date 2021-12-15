@@ -144,46 +144,48 @@ s.t. relacion_ini_fin_b{i in MESES, j in MESES: i<j and i<>12 and j<>1}:
 # Cuantos turnos necesito por mes, por produccion
 ## Producto A Proceso 1
 s.t. necesarios_A1{m in MESES}:
-    TURNOS_PRODA_PROC1[m] * prod_A1 >= PROD_A[m];
+    TURNOS_DISP_A1[m] * prod_A1 >= PROD_A[m];
 
 ## Producto A Proceso 2
 s.t. necesarios_A2{m in MESES}:
-    TURNOS_PRODA_PROC2[m] * prod_A2 >= PROD_A[m];
+    TURNOS_DISP_A2[m] * prod_A2 >= PROD_A[m];
 
 ## Producto B Proceso 1
 s.t. necesarios_B1{m in MESES}:
-    TURNOS_PRODB_PROC1[m] * prod_B1 >= PROD_B[m];
+    TURNOS_DISP_B1[m] * prod_B1 >= PROD_B[m];
 
 ## Producto B Proceso 2
 s.t. necesarios_B2{m in MESES}:
-    TURNOS_PRODB_PROC2[m] * prod_B2  >= PROD_B[m];
+    TURNOS_DISP_B2[m] * prod_B2  >= PROD_B[m];
 
 
-# Relaciono los turnos entre si
-s.t. max_turnos_a1{m in MESES}:
-    TURNOS_DISP_A1[m] = A1_en_A1[m] + A1_en_A2[m] + A1_en_B1[m] + A1_en_B2[m] + NONE_A1[m];
-
-s.t. max_turnos_a2{m in MESES}:
-    TURNOS_DISP_A2[m] = A2_en_A1[m] + A2_en_A2[m] + A2_en_B1[m] + A2_en_B2[m] + NONE_A2[m];
-
-s.t. max_turnos_b1{m in MESES}:
-    TURNOS_DISP_B1[m] = B1_en_A1[m] + B1_en_A2[m] + B1_en_B1[m] + B1_en_B2[m] + NONE_B1[m];
-
-s.t. max_turnos_b2{m in MESES}:
-    TURNOS_DISP_B2[m] = B2_en_A1[m] + B2_en_A2[m] + B2_en_B1[m] + B2_en_B2[m] + NONE_B2[m];
-
-## Relaciono los turnos con lo que necesito para producir
-s.t. turnos_a1{m in MESES}:
-    TURNOS_PRODA_PROC1[m] = A1_en_A1[m] + A2_en_A1[m] + B1_en_A1[m] + B2_en_A1[m];
-
-s.t. turnos_a2{m in MESES}:
-    TURNOS_PRODA_PROC2[m] = A1_en_A2[m] + A2_en_A2[m] + B1_en_A2[m] + B2_en_A2[m];
-
-s.t. turnos_b1{m in MESES}:
-    TURNOS_PRODB_PROC1[m] = A1_en_B1[m] + A2_en_B1[m] + B1_en_B1[m] + B2_en_B1[m];
-
-s.t. turnos_b2{m in MESES}:
-    TURNOS_PRODB_PROC2[m] = A1_en_B2[m] + A2_en_B2[m] + B1_en_B2[m] + B2_en_B2[m];
+#/*
+## Relaciono los turnos entre si
+#s.t. max_turnos_a1{m in MESES}:
+#    TURNOS_DISP_A1[m] = A1_en_A1[m] + A1_en_A2[m] + A1_en_B1[m] + A1_en_B2[m] + NONE_A1[m];
+#
+#s.t. max_turnos_a2{m in MESES}:
+#    TURNOS_DISP_A2[m] = A2_en_A1[m] + A2_en_A2[m] + A2_en_B1[m] + A2_en_B2[m] + NONE_A2[m];
+#
+#s.t. max_turnos_b1{m in MESES}:
+#    TURNOS_DISP_B1[m] = B1_en_A1[m] + B1_en_A2[m] + B1_en_B1[m] + B1_en_B2[m] + NONE_B1[m];
+#
+#s.t. max_turnos_b2{m in MESES}:
+#    TURNOS_DISP_B2[m] = B2_en_A1[m] + B2_en_A2[m] + B2_en_B1[m] + B2_en_B2[m] + NONE_B2[m];
+#
+### Relaciono los turnos con lo que necesito para producir
+#s.t. turnos_a1{m in MESES}:
+#    TURNOS_PRODA_PROC1[m] = A1_en_A1[m] + A2_en_A1[m] + B1_en_A1[m] + B2_en_A1[m];
+#
+#s.t. turnos_a2{m in MESES}:
+#    TURNOS_PRODA_PROC2[m] = A1_en_A2[m] + A2_en_A2[m] + B1_en_A2[m] + B2_en_A2[m];
+#
+#s.t. turnos_b1{m in MESES}:
+#    TURNOS_PRODB_PROC1[m] = A1_en_B1[m] + A2_en_B1[m] + B1_en_B1[m] + B2_en_B1[m];
+#
+#s.t. turnos_b2{m in MESES}:
+#    TURNOS_PRODB_PROC2[m] = A1_en_B2[m] + A2_en_B2[m] + B1_en_B2[m] + B2_en_B2[m];
+#*/
 
 ## Relaciono los turnos con los contratados
 s.t. turnos_contratados_a1{m in MESES}:
@@ -239,18 +241,18 @@ data;
 set MESES := 1 2 3 4 5 6 7 8 9 10 11 12;
 
 param DEMANDA_PRODA :=
-    1 2178
-    2 1968
-    3 1799
-    4 1564
-    5 1750
-    6 2440
-    7 3080
-    8 3193
-    9 3122
-    10 2581
-    11 2492
-    12 2185;
+    1 1
+    2 1
+    3 1
+    4 1
+    5 1
+    6 1
+    7 1
+    8 1
+    9 1
+    10 1
+    11 1
+    12 12185;
 
 param DEMANDA_PRODB :=
     1 712
